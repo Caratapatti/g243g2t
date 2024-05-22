@@ -45,15 +45,38 @@ const caixa1ChamaProximo = () =>{
         caixa1ChamaProximo()
         },tempo);     
     }else{
+        document.getElementById("C2").innerHTML = "Aguardando!";
         if(clientesParaAtender > 0){
             setTimeout(function(){
                 caixa1ChamaProximo()
                 },gerarItens()*50);   
-        }
+        }else{
+            document.getElementById("C2").innerHTML = "Fechando!";
+            
+           }
 
     }
     
 }
+const caixa2ChamaProximo = () =>{
+    let cliente = f1.desenfileirar();
+    let tempo = 200;
+    if (cliente){
+       document.getElementById("C2").innerHTML = "["+cliente.id + "("+cliente.itens+")]";
+       tempo = cliente.itens * 1000;
+       setTimeout(function(){
+           caixa2ChamaProximo()
+           },tempo);     
+       }else{
+           if(clientesParaAtender > 0){
+               setTimeout(function(){
+                   caixa2ChamaProximo()
+                   },gerarItens()*50);   
+           }
+   
+       }
+       
+   }
 const maxClientes = 50;
 const filaInicial = 10;
 let clientesParaAtender = maxClientes - filaInicial;
@@ -73,5 +96,6 @@ const entrarNaFila = () =>{
         f1.enfileirar(Cliente("C"+i,gerarItens()));
     }
     caixa1ChamaProximo();
+    caixa2ChamaProximo();
     entrarNaFila();
 })();
